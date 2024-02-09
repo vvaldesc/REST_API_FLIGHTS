@@ -1,6 +1,6 @@
 <?php 
 require_once ('./bd/Basedatos.php'); 
-require_once ('./models/DepartamentoModel.php'); 
+require_once ('./models/AeropuertoModel.php'); 
 $dep = new DepartamentoModel(); 
 @header("Content-type: application/json"); 
 // Consultar GET 
