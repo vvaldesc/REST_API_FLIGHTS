@@ -2,13 +2,13 @@
 
  include_once $_SERVER['DOCUMENT_ROOT'].'/_servWeb/UT7_3_Actividad3_RESTFul_Servidor/bd/BaseDatos.php';
 
-class DepartamentoModel extends Basedatos 
+class PasajeModel extends Basedatos 
 {
  private $table; 
  private $conexion; 
  public function __construct()
  {
- $this->table = "vuelo";
+ $this->table = "pasaje";
  $this->conexion = $this->getConexion();
  }
  // Recibe el array de los post
@@ -49,7 +49,24 @@ class DepartamentoModel extends Basedatos
  } 
  } 
  // Devuelve un array departamento 
- public function getUnVuelo($nudep) 
+ public function getUnPasaje($nudep) 
+ { 
+ try { 
+ $sql = "SELECT * FROM $this->table WHERE dept_no=?"; 
+ $sentencia = $this->conexion->prepare($sql); 
+ $sentencia->bindParam(1, $nudep); 
+ $sentencia->execute(); 
+ $row = $sentencia->fetch(PDO::FETCH_ASSOC); 
+ if ($row) { 
+ return $row; 
+ } 
+ return "SIN DATOS"; 
+ } catch (PDOException $e) { 
+ return "ERROR AL CARGAR.<br>" . $e->getMessage(); 
+ } 
+ }
+ // Devuelve un array departamento 
+ public function getUnPasajeVuelo($nudep) 
  { 
  try { 
  $sql = "SELECT * FROM $this->table WHERE identificador=?"; 
@@ -64,7 +81,8 @@ class DepartamentoModel extends Basedatos
  } catch (PDOException $e) { 
  return "ERROR AL CARGAR.<br>" . $e->getMessage(); 
  } 
- } 
+ }
+
  public function getAll() 
  { 
  try { 
