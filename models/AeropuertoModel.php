@@ -2,7 +2,7 @@
 
  include_once $_SERVER['DOCUMENT_ROOT'].'/_servWeb/UT7_3_Actividad3_RESTFul_Servidor/bd/BaseDatos.php';
 
-class DepartamentoModel extends Basedatos 
+class AeropuertoModel extends Basedatos 
 {
  private $table; 
  private $conexion; 

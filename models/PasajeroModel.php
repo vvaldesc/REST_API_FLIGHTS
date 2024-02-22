@@ -68,7 +68,7 @@ class PasajeroModel extends Basedatos
  public function getAll() 
  { 
  try { 
- $sql = "select pasajerocod, nombre from $this->table"; 
+ $sql = "select pasajerocod, nombre, tlf, direccion, pais from $this->table"; 
  $statement = $this->conexion->query($sql); 
  $registros = $statement->fetchAll(PDO::FETCH_ASSOC); 
  $statement = null; 

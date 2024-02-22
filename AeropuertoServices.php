@@ -1,7 +1,7 @@
 <?php 
 require_once ('./bd/Basedatos.php'); 
 require_once ('./models/AeropuertoModel.php'); 
-$dep = new DepartamentoModel(); 
+$dep = new AeropuertoModel(); 
 @header("Content-type: application/json"); 
 // Consultar GET 
 // devuelve o 1 o todos, dependiendo si recibe o no parámetro 

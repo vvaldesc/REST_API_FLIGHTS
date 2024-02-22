@@ -15,15 +15,18 @@ class PasajeModel extends Basedatos
  public function guardar($post)
  {
  try { 
- $sql = "insert into $this->table values ( ?,?,?)"; 
+ $sql = "insert into $this->table (pasajerocod ,identificador ,numasiento ,clase ,pvp) values ( ?,?,?,?,?)"; 
  $sentencia = $this->conexion->prepare($sql); 
  // extraemos los parámetros de la variable post 
  // suponemos que se llaman igual 
- $sentencia->bindParam(1, $post['dept_no']); 
- $sentencia->bindParam(2, $post['dnombre']); 
- $sentencia->bindParam(3, $post['loc']); 
+ $sentencia->bindParam(1, $post['pasajerocod']); 
+ $sentencia->bindParam(2, $post['identificador']); 
+ $sentencia->bindParam(3, $post['numasiento']);
+ $sentencia->bindParam(4, $post['clase']); 
+ $sentencia->bindParam(5, $post['pvp']); 
+
  $num = $sentencia->execute(); 
- return "Registro insertado: " . $post['dept_no']; 
+ return true; 
  } catch (PDOException $e) { 
  return "Error al grabar.<br>". $e->getMessage(); 
  } 
@@ -31,19 +34,24 @@ class PasajeModel extends Basedatos
  public function actualiza($post) 
  { 
  try { 
- $sql = "update $this->table set dnombre=?, loc=? where dept_no = ?"; 
+ $sql = "update $this->table set pasajerocod=?, identificador=?, numasiento=?, clase=?, pvp=? where idpasaje = ?"; 
  $sentencia = $this->conexion->prepare($sql); 
   // extraemos los parámetros de la variable $post 
  // suponemos que se llaman igual 
- $sentencia->bindParam(3, $post['dept_no']); 
- $sentencia->bindParam(1, $post['dnombre']); 
- $sentencia->bindParam(2, $post['loc']); 
+ $sentencia->bindParam(1, $post['pasajerocod']); 
+ $sentencia->bindParam(2, $post['identificador']); 
+ $sentencia->bindParam(3, $post['numasiento']);
+ $sentencia->bindParam(4, $post['clase']); 
+ $sentencia->bindParam(5, $post['pvp']); 
+ $sentencia->bindParam(6, $post['idpasaje']); 
+
+ 
  $num = $sentencia->execute(); 
  if ($sentencia->rowCount() == 0) 
  return "Registro NO actualizado, o no existe o no hay cambios: 
-" . $post['dept_no']; 
+" . $post['idpasaje']; 
  else 
- return "Registro actualizado: " . $post['dept_no']; 
+ return "Registro actualizado: " . $post['idpasaje']; 
  } catch (PDOException $e) { 
  return "Error al actualizar.<br>". $e->getMessage(); 
  } 
@@ -73,7 +81,7 @@ class PasajeModel extends Basedatos
  $sentencia = $this->conexion->prepare($sql); 
  $sentencia->bindParam(1, $nudep); 
  $sentencia->execute(); 
- $row = $sentencia->fetch(PDO::FETCH_ASSOC); 
+ $row = $sentencia->fetchAll(PDO::FETCH_ASSOC); 
  if ($row) { 
  return $row; 
  } 
