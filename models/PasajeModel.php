@@ -2,28 +2,31 @@
 
  include_once $_SERVER['DOCUMENT_ROOT'].'/_servWeb/UT7_3_Actividad3_RESTFul_Servidor/bd/BaseDatos.php';
 
-class AeropuertoModel extends Basedatos 
+class PasajeModel extends Basedatos 
 {
  private $table; 
  private $conexion; 
  public function __construct()
  {
- $this->table = "aeropuerto";
+ $this->table = "pasaje";
  $this->conexion = $this->getConexion();
  }
  // Recibe el array de los post
  public function guardar($post)
  {
  try { 
- $sql = "insert into $this->table values ( ?,?,?)"; 
+ $sql = "insert into $this->table (pasajerocod ,identificador ,numasiento ,clase ,pvp) values ( ?,?,?,?,?)"; 
  $sentencia = $this->conexion->prepare($sql); 
  // extraemos los parámetros de la variable post 
  // suponemos que se llaman igual 
- $sentencia->bindParam(1, $post['dept_no']); 
- $sentencia->bindParam(2, $post['dnombre']); 
- $sentencia->bindParam(3, $post['loc']); 
+ $sentencia->bindParam(1, $post['pasajerocod']); 
+ $sentencia->bindParam(2, $post['identificador']); 
+ $sentencia->bindParam(3, $post['numasiento']);
+ $sentencia->bindParam(4, $post['clase']); 
+ $sentencia->bindParam(5, $post['pvp']); 
+
  $num = $sentencia->execute(); 
- return "Registro insertado: " . $post['dept_no']; 
+ return true; 
  } catch (PDOException $e) { 
  return "Error al grabar.<br>". $e->getMessage(); 
  } 
@@ -31,25 +34,30 @@ class AeropuertoModel extends Basedatos
  public function actualiza($post) 
  { 
  try { 
- $sql = "update $this->table set dnombre=?, loc=? where dept_no = ?"; 
+ $sql = "update $this->table set pasajerocod=?, identificador=?, numasiento=?, clase=?, pvp=? where idpasaje = ?"; 
  $sentencia = $this->conexion->prepare($sql); 
   // extraemos los parámetros de la variable $post 
  // suponemos que se llaman igual 
- $sentencia->bindParam(3, $post['dept_no']); 
- $sentencia->bindParam(1, $post['dnombre']); 
- $sentencia->bindParam(2, $post['loc']); 
+ $sentencia->bindParam(1, $post['pasajerocod']); 
+ $sentencia->bindParam(2, $post['identificador']); 
+ $sentencia->bindParam(3, $post['numasiento']);
+ $sentencia->bindParam(4, $post['clase']); 
+ $sentencia->bindParam(5, $post['pvp']); 
+ $sentencia->bindParam(6, $post['idpasaje']); 
+
+ 
  $num = $sentencia->execute(); 
  if ($sentencia->rowCount() == 0) 
  return "Registro NO actualizado, o no existe o no hay cambios: 
-" . $post['dept_no']; 
+" . $post['idpasaje']; 
  else 
- return "Registro actualizado: " . $post['dept_no']; 
+ return "Registro actualizado: " . $post['idpasaje']; 
  } catch (PDOException $e) { 
  return "Error al actualizar.<br>". $e->getMessage(); 
  } 
  } 
  // Devuelve un array departamento 
- public function getUnDepartamento($nudep) 
+ public function getUnPasaje($nudep) 
  { 
  try { 
  $sql = "SELECT * FROM $this->table WHERE dept_no=?"; 
@@ -64,7 +72,25 @@ class AeropuertoModel extends Basedatos
  } catch (PDOException $e) { 
  return "ERROR AL CARGAR.<br>" . $e->getMessage(); 
  } 
+ }
+ // Devuelve un array departamento 
+ public function getUnPasajeVuelo($nudep) 
+ { 
+ try { 
+ $sql = "SELECT * FROM $this->table WHERE identificador=?"; 
+ $sentencia = $this->conexion->prepare($sql); 
+ $sentencia->bindParam(1, $nudep); 
+ $sentencia->execute(); 
+ $row = $sentencia->fetchAll(PDO::FETCH_ASSOC); 
+ if ($row) { 
+ return $row; 
  } 
+ return "SIN DATOS"; 
+ } catch (PDOException $e) { 
+ return "ERROR AL CARGAR.<br>" . $e->getMessage(); 
+ } 
+ }
+
  public function getAll() 
  { 
  try { 
@@ -78,17 +104,17 @@ class AeropuertoModel extends Basedatos
  return "ERROR AL CARGAR.<br>" . $e->getMessage(); 
  } 
  } 
- public function borrar($depno) 
+ public function borrar($pasno) 
  { 
  try { 
- $sql = "delete from departamentos where dept_no= ? "; 
+ $sql = "delete from $this->table where idpasaje= ? "; 
  $sentencia = $this->conexion->prepare($sql); 
- $sentencia->bindParam(1, $depno); 
+ $sentencia->bindParam(1, $pasno); 
  $num = $sentencia->execute(); 
  if ($sentencia->rowCount() == 0) 
- return "Registro NO Borrado, no se localiza: " . $depno; 
+ return "Registro NO Borrado, no se localiza: " . $pasno; 
  else 
- return "Registro Borrado: " . $depno; 
+ return $pasno; 
  } catch (PDOException $e) { 
  return "ERROR AL BORRAR.<br>" . $e->getMessage(); 
  } 

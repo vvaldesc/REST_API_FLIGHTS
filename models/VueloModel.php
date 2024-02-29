@@ -49,10 +49,10 @@ class DepartamentoModel extends Basedatos
  } 
  } 
  // Devuelve un array departamento 
- public function getUnDepartamento($nudep) 
+ public function getUnVuelo($nudep) 
  { 
  try { 
- $sql = "SELECT * FROM $this->table WHERE dept_no=?"; 
+ $sql = "SELECT * FROM $this->table WHERE identificador=?"; 
  $sentencia = $this->conexion->prepare($sql); 
  $sentencia->bindParam(1, $nudep); 
  $sentencia->execute(); 

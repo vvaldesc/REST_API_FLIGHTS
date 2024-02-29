@@ -2,13 +2,13 @@
 
  include_once $_SERVER['DOCUMENT_ROOT'].'/_servWeb/UT7_3_Actividad3_RESTFul_Servidor/bd/BaseDatos.php';
 
-class AeropuertoModel extends Basedatos 
+class PasajeroModel extends Basedatos 
 {
  private $table; 
  private $conexion; 
  public function __construct()
  {
- $this->table = "aeropuerto";
+ $this->table = "pasajero";
  $this->conexion = $this->getConexion();
  }
  // Recibe el array de los post
@@ -68,7 +68,7 @@ class AeropuertoModel extends Basedatos
  public function getAll() 
  { 
  try { 
- $sql = "select * from $this->table"; 
+ $sql = "select pasajerocod, nombre, tlf, direccion, pais from $this->table"; 
  $statement = $this->conexion->query($sql); 
  $registros = $statement->fetchAll(PDO::FETCH_ASSOC); 
  $statement = null; 

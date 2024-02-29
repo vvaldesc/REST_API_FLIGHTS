@@ -7,7 +7,7 @@ $dep = new DepartamentoModel();
 // devuelve o 1 o todos, dependiendo si recibe o no parámetro 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') { 
  if (isset($_GET['id'])) { 
- $res = $dep->getUnDepartamento($_GET['id']); 
+ $res = $dep->getUnVuelo($_GET['id']); 
  echo json_encode($res); 
  exit(); 
  } else { 
